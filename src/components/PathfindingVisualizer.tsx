@@ -17,7 +17,7 @@ import { LatLngBounds, CRS, LatLng } from "leaflet";
 function getLatLngFromCoords(node: MapNode) {
   const x = node.x;
   const y = node.y;
-  return new LatLng(y + 4045, x + 5700);
+  return new LatLng(y + 4045, x + 5700); //add offsets to make nodes line up with the map
 }
 
 function getClosestNodeToPoint(x: number, y: number, nodes: MapNode[]) {
@@ -79,9 +79,6 @@ export default function PathfindingVisualizer() {
         bounds={bounds}
       />
 
-      <Marker position={bottomLeft} />
-      <Marker position={topRight}></Marker>
-      <Marker position={[1000, 1000]}></Marker>
       {markers}
     </MapContainer>
   );
