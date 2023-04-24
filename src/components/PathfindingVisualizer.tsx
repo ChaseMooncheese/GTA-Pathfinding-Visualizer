@@ -20,19 +20,29 @@ function getLatLngFromCoords(node: MapNode) {
   return new LatLng(y + 4045, x + 5700);
 }
 
+function getClosestNodeToPoint(x: number, y: number, nodes: MapNode[]) {
+  //return the closest node to (x, y)
+}
+
 //Read data
-const nodeData: MapData = NodeData;
-const nodes = nodeData.Nodes;
-const edges = nodeData.Edges;
+// @ts-ignore
+const nodeData: MapData = NodeData; //Reads the json file
+
+const nodes = nodeData.Nodes; //This creates all the node objects. Each node has an empty "edges" property
+const edges = nodeData.Edges; //Reads in all the edges
 
 //Add edges to node objects
 edges.forEach((edge) => {
-  const node1 = nodes[edge.node1];
-  const node2 = nodes[edge.node2];
-  if (node1.edges == undefined) {
-    node1.edges = [];
+  const fromNode = nodes[edge.node1];
+  const destinationNode = nodes[edge.node2];
+
+  if (fromNode.edges == undefined) {
+    fromNode.edges = [];
   }
-  node1.edges.push([node2, 1]);
+
+  const weight = 1; //all weights are 1 for now
+
+  fromNode.edges.push([destinationNode, weight]);
 });
 
 //Create map
@@ -47,7 +57,7 @@ const markers = nodes.map((node, index) => {
       key={index}
       center={getLatLngFromCoords(node)}
       radius={3}
-      weight={0.5}
+      weight={1}
     />
   );
 });
