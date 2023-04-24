@@ -22,7 +22,7 @@ edges.forEach((edge) => {
   fromNode.edges.push([destinationNode, weight]);
 });
 
-function Dijkstra(source: MapNode) {
+function Dijkstra(source: MapNode, destination: MapNode) {
   let s = [source];
   let vs = nodes; //visited nodes
   vs.slice(nodes.indexOf(source), 1); //removes source node from visited
@@ -71,4 +71,13 @@ function Dijkstra(source: MapNode) {
       }
     });
   }
+
+  //Path to destination
+  let path: (MapNode | number)[] = [destination];
+  let nodesTS: (MapNode | number)[] = nodes;
+  while (path[0] != source) {
+    path.unshift(p[nodesTS.indexOf(path[0])]);
+  }
+
+  return path;
 }
