@@ -26,7 +26,7 @@ function Dijkstra(source: MapNode) {
   let s = [source];
   let vs = nodes; //visited nodes
   vs.slice(nodes.indexOf(source), 1); //removes source node from visited
-  let d = [];
+  let d: number[] = [];
   let p = [];
 
   let sourceEdges: [MapNode] = [source.edges[0][0]];
@@ -36,7 +36,7 @@ function Dijkstra(source: MapNode) {
     }
   });
   for (let i = 0; i < nodes.length; i++) {
-    d.push(null);
+    d.push(Number.MAX_VALUE);
     p.push(-1);
     if (nodes[i] == source) {
       d[i] = 0;
