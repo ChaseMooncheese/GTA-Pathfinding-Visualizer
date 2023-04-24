@@ -45,4 +45,30 @@ function Dijkstra(source: MapNode) {
       p[i] = source;
     }
   }
+
+  while (vs.length != 0) {
+    let smallestNode = vs[0];
+    vs.forEach((i) => {
+      if (
+        d[nodes.indexOf(i)] != null &&
+        d[nodes.indexOf(smallestNode)] > d[nodes.indexOf(i)]
+      ) {
+        smallestNode = i;
+      }
+    });
+    vs.splice(vs.indexOf(smallestNode), 1);
+    s.push(smallestNode);
+    smallestNode.edges.forEach((i) => {
+      if (d[nodes.indexOf(i[0])] == null) {
+        d[nodes.indexOf(i[0])] = d[nodes.indexOf(smallestNode)] + i[1];
+        p[nodes.indexOf(i[0])] = smallestNode;
+      } else if (
+        vs.includes(i[0]) &&
+        d[nodes.indexOf(smallestNode)] + i[1] < d[nodes.indexOf(i[0])]
+      ) {
+        d[nodes.indexOf(i[0])] = d[nodes.indexOf(smallestNode)] + i[1];
+        p[nodes.indexOf(i[0])] = smallestNode;
+      }
+    });
+  }
 }
