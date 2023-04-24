@@ -45,10 +45,9 @@ const markers = nodes.map((node, index) => {
   return (
     <Circle
       key={index}
-      opacity={0}
       center={getLatLngFromCoords(node)}
-      radius={5}
-      weight={1}
+      radius={3}
+      weight={0.5}
     />
   );
 });
