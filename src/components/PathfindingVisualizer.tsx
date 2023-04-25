@@ -20,8 +20,42 @@ function getLatLngFromCoords(node: MapNode) {
   return new LatLng(y + 4045, x + 5700); //add offsets to make nodes line up with the map
 }
 
+//distance formula calculation
+function distance(x1: number, y1: number, x2: number, y2: number) {
+  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+}
+
+//return the closest node to (x, y)
 function getClosestNodeToPoint(x: number, y: number, nodes: MapNode[]) {
-  //return the closest node to (x, y)
+  let min = 1000;
+  let closeNodes = [];
+  let closestNode = null;
+
+  //loop through all nodes and store closeish ones
+  for(let i = 0; i < nodes.length; i++){
+    if((x + y) - (nodes[i].x + nodes[i].y) < min){
+      closeNodes.push(nodes[i]);
+    }
+  }
+
+  //reset min
+  min = Number.MAX_SAFE_INTEGER;
+  //if empty return null saves time i think
+  if(closeNodes.length === 0){
+    return null;
+  }
+  else{
+    //loop through the closeish nodes and now use distance formula to find the closest
+    for(let i = 0; i < closeNodes.length; i++){
+      if(distance(x,y,closeNodes[i].x,closeNodes[i].y) < min){
+        min = distance(x,y,closeNodes[i].x,closeNodes[i].y);
+        closestNode = closeNodes[i];
+      }
+    }
+  }
+
+  return closestNode;
+
 }
 
 //Read data
