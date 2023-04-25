@@ -10,9 +10,11 @@ import {
   Popup,
   TileLayer,
   useMap,
+  SVGOverlay,
 } from "react-leaflet";
 import NodeData from "../data/nodes.json";
 import { LatLngBounds, CRS, LatLng } from "leaflet";
+import NodeLayer from "./NodeLayer";
 
 function getLatLngFromCoords(node: MapNode) {
   const x = node.x;
@@ -32,8 +34,8 @@ function getClosestNodeToPoint(x: number, y: number, nodes: MapNode[]) {
   let closestNode = null;
 
   //loop through all nodes and store closeish ones
-  for(let i = 0; i < nodes.length; i++){
-    if((x + y) - (nodes[i].x + nodes[i].y) < min){
+  for (let i = 0; i < nodes.length; i++) {
+    if (x + y - (nodes[i].x + nodes[i].y) < min) {
       closeNodes.push(nodes[i]);
     }
   }
@@ -41,21 +43,19 @@ function getClosestNodeToPoint(x: number, y: number, nodes: MapNode[]) {
   //reset min
   min = Number.MAX_SAFE_INTEGER;
   //if empty return null saves time i think
-  if(closeNodes.length === 0){
+  if (closeNodes.length === 0) {
     return null;
-  }
-  else{
+  } else {
     //loop through the closeish nodes and now use distance formula to find the closest
-    for(let i = 0; i < closeNodes.length; i++){
-      if(distance(x,y,closeNodes[i].x,closeNodes[i].y) < min){
-        min = distance(x,y,closeNodes[i].x,closeNodes[i].y);
+    for (let i = 0; i < closeNodes.length; i++) {
+      if (distance(x, y, closeNodes[i].x, closeNodes[i].y) < min) {
+        min = distance(x, y, closeNodes[i].x, closeNodes[i].y);
         closestNode = closeNodes[i];
       }
     }
   }
 
   return closestNode;
-
 }
 
 //Read data
@@ -96,6 +96,10 @@ const markers = nodes.map((node, index) => {
   );
 });
 
+const svgMarkers = nodes.map((node, index) => {
+  return <circle key={index} r="5" cx="10" cy="10" fill="red" />;
+});
+
 export default function PathfindingVisualizer() {
   return (
     <MapContainer
@@ -106,14 +110,14 @@ export default function PathfindingVisualizer() {
       crs={CRS.Simple}
       preferCanvas={true}
       scrollWheelZoom={true}
+      markerZoomAnimation={false}
     >
       <ImageOverlay
         //url="https://www.bragitoff.com/wp-content/uploads/2015/11/GTAV-HD-MAP-satellite.jpg"
         url={mapImgURL}
         bounds={bounds}
       />
-
-      {markers}
+      <NodeLayer nodes={nodes} nodesVisitedInOrder={[]} />
     </MapContainer>
   );
 }
