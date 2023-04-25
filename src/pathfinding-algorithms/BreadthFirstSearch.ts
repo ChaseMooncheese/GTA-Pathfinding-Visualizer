@@ -9,12 +9,19 @@ export default function breadthFirstSearch(startNode: MapNode, endNode: MapNode)
     visitedNodesInOrder.push(startNode);
     q.push(startNode);
     
+    let numIters = 0;
+    
 
-    while (q.length !== 0 && !endNodeHasBeenFound){
+    while (q.length !== 0 && !endNodeHasBeenFound && numIters < 300000){
         //Visit node at front of queue
+        numIters++;
         const currentNode = q[0];
         q.shift();  //Pops currentNode from queue
         const edges = currentNode.edges;
+        if (edges === undefined)
+        {
+            continue;
+        }
 
         //Add all adjacent nodes to queue if they havent been visited
         edges.every( edge => {
@@ -22,14 +29,16 @@ export default function breadthFirstSearch(startNode: MapNode, endNode: MapNode)
 
             if (!visitedNodes.has(neighbor))
             {
-                q.push(currentNode);
-                visitedNodes.add(currentNode);
-                visitedNodesInOrder.push(currentNode);
+                console.log("adding to q");
+                q.push(neighbor);
+                visitedNodes.add(neighbor);
+                visitedNodesInOrder.push(neighbor);
                 nodeToParent.set(neighbor, currentNode);    //keep track of parent to trace back
             }
 
             if (neighbor === endNode)
             {
+                endNodeHasBeenFound = true;
                 return false;   //break
             }
             return true;
@@ -38,6 +47,7 @@ export default function breadthFirstSearch(startNode: MapNode, endNode: MapNode)
     }
 
     //Trace back steps to get nodes visited in order
+    console.log("finished bfs");
     let curr: MapNode = endNode;
     let parent = nodeToParent.get(curr);
 

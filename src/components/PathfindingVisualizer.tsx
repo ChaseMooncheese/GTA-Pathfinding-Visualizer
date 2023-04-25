@@ -15,6 +15,7 @@ import {
 import NodeData from "../data/nodes.json";
 import { LatLngBounds, CRS, LatLng } from "leaflet";
 import NodeLayer from "./NodeLayer";
+import breadthFirstSearch from "../pathfinding-algorithms/BreadthFirstSearch";
 
 function getLatLngFromCoords(node: MapNode) {
   const x = node.x;
@@ -96,11 +97,11 @@ const markers = nodes.map((node, index) => {
   );
 });
 
-const svgMarkers = nodes.map((node, index) => {
-  return <circle key={index} r="5" cx="10" cy="10" fill="red" />;
-});
-
 export default function PathfindingVisualizer() {
+  const result = breadthFirstSearch(nodes[0], nodes[200]);
+  const shortestPath = result[0];
+  const visitedNodesInOrder = result[1];
+
   return (
     <MapContainer
       center={[5000, 5000]}
@@ -117,7 +118,7 @@ export default function PathfindingVisualizer() {
         url={mapImgURL}
         bounds={bounds}
       />
-      <NodeLayer nodes={nodes} nodesVisitedInOrder={[]} />
+      <NodeLayer nodes={nodes} nodesVisitedInOrder={visitedNodesInOrder} />
     </MapContainer>
   );
 }
