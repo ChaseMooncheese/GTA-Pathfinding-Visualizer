@@ -23,8 +23,8 @@ edges.forEach((edge) => {
 });
 
 function Dijkstra(source: MapNode, destination: MapNode) {
-  let s = [source];
-  let vs = nodes; //visited nodes
+  let s = [source]; //visited nodes
+  let vs = nodes;
   vs.slice(nodes.indexOf(source), 1); //removes source node from visited
   let d: number[] = [];
   let p = [];
