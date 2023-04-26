@@ -7,6 +7,7 @@ type pairValue = {
 }
 
 export default function AStarSearch(startNode: MapNode, endNode: MapNode){
+
     const visitedNodes = new Set<MapNode>(); //set to know what is already checked
     const searchChart = new Map<MapNode, pairValue>(); //unordered map with dijkstras esc chart
     const pq = new PriorityQueue({
@@ -14,7 +15,7 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
             const pairA = searchChart.get(a);
             const pairB = searchChart.get(b);
             
-            if (pairA=== undefined || pairB === undefined)
+            if (pairA === undefined || pairB === undefined)
             {
               return 0;
             }
@@ -24,7 +25,8 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
 
     pq.queue(startNode);
 
-    while(pq.length <= 0){
+
+    while(pq.length >= 0){
         const currNode = pq.dequeue();
 
         if(currNode === endNode){
