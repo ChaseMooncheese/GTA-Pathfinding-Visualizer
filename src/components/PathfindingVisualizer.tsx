@@ -37,8 +37,8 @@ function getClosestNodeToPoint(x: number, y: number, nodes: MapNode[]) {
 
   //loop through all nodes and store closeish ones
   for (let i = 0; i < nodes.length; i++) {
-    if((Math.abs(x - nodes[i].x) + Math.abs(y - nodes[i].y)) < min){
-    //if (x + y - (nodes[i].x + nodes[i].y) < min) {
+    if (Math.abs(x - nodes[i].x) + Math.abs(y - nodes[i].y) < min) {
+      //if (x + y - (nodes[i].x + nodes[i].y) < min) {
       closeNodes.push(nodes[i]);
     }
   }
@@ -86,7 +86,6 @@ edges.forEach((edge) => {
 const bottomLeft: [number, number] = [0, 0];
 const topRight: [number, number] = [12437, 12442];
 const bounds = new LatLngBounds(bottomLeft, topRight);
-const test = [];
 
 export default function PathfindingVisualizer(props: {
   currentAlgorithmRef: React.MutableRefObject<string>;
@@ -98,11 +97,6 @@ export default function PathfindingVisualizer(props: {
 
   return (
     <div>
-      <button
-        onClick={() => {
-          console.log(props.currentAlgorithmRef.current);
-        }}
-      ></button>
       <MapContainer
         center={[5000, 5000]}
         bounds={bounds}

@@ -18,7 +18,6 @@ function App() {
         currentAlgorithmRef={currentAlgorithmRef}
         currentSpeedRef={currentSpeedRef}
       ></PathfindingVisualizer>
-      ;
     </>
   );
 }
