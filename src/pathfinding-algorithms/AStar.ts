@@ -29,3 +29,4 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
 function absDistance(currNode: MapNode, endNode: MapNode){
     return Math.abs(currNode.x - endNode.x) + Math.abs(currNode.y - endNode.y);
 }
+//e
