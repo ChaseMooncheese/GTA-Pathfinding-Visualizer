@@ -17,6 +17,8 @@ import { LatLngBounds, CRS, LatLng } from "leaflet";
 import NodeLayer from "./NodeLayer";
 import breadthFirstSearch from "../pathfinding-algorithms/BreadthFirstSearch";
 import Navbar from "./Navbar";
+import Dijkstra from "../pathfinding-algorithms/Dijkstra(Reworked)";
+import AStarSearch from "../pathfinding-algorithms/AStar";
 
 function getLatLngFromCoords(node: MapNode) {
   const x = node.x;
@@ -92,8 +94,12 @@ export default function PathfindingVisualizer(props: {
   currentSpeedRef: React.MutableRefObject<string>;
 }) {
   const result = breadthFirstSearch(nodes[0], nodes[200]);
+  //const result = Dijkstra(nodes[0], nodes[200]);
+  //const result = AStarSearch(nodes[0], nodes[200]);
   const shortestPath = result[0];
   const visitedNodesInOrder = result[1];
+  console.log(visitedNodesInOrder);
+  console.log(shortestPath);
 
   return (
     <div>

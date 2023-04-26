@@ -16,10 +16,18 @@ export default function Dijkstra(source: MapNode, destination: MapNode) {
     p.push(source);
   }
 
-  while (vs.length != 0) {
+  let endNodeFound = false;
+
+  while (vs.length != 0 && !endNodeFound) {
     //runs while nodes still need to be processed
     let smallestNode = vs[0];
     let smallestNodeIndex = 0;
+
+    if (smallestNode === destination) {
+      endNodeFound = true;
+      continue;
+    }
+
     vs.forEach((i) => {
       //finds smallest(lowest weight from source) unprocessed node
       if (d[smallestNodeIndex] > d[nodes.indexOf(i)] && !s.includes(i)) {
@@ -68,5 +76,5 @@ export default function Dijkstra(source: MapNode, destination: MapNode) {
     path.unshift(pNode);
   }
 
-  return [path, path];
+  return [path, s];
 }
