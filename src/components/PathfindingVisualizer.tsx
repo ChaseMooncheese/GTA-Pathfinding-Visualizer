@@ -87,14 +87,21 @@ const topRight: [number, number] = [12437, 12442];
 const bounds = new LatLngBounds(bottomLeft, topRight);
 const test = [];
 
-export default function PathfindingVisualizer() {
+export default function PathfindingVisualizer(props: {
+  currentAlgorithmRef: React.MutableRefObject<string>;
+  currentSpeedRef: React.MutableRefObject<string>;
+}) {
   const result = breadthFirstSearch(nodes[0], nodes[200]);
   const shortestPath = result[0];
   const visitedNodesInOrder = result[1];
 
   return (
     <div>
-      <Navbar></Navbar>
+      <button
+        onClick={() => {
+          console.log(props.currentAlgorithmRef.current);
+        }}
+      ></button>
       <MapContainer
         center={[5000, 5000]}
         bounds={bounds}
