@@ -24,6 +24,14 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
 
     pq.queue(startNode);
 
+    while(pq.length <= 0){
+        const currNode = pq.dequeue();
+
+        if(currNode === endNode){
+
+        }
+
+    }
 }
 
 function manhattanDistance(currNode: MapNode, endNode: MapNode){
