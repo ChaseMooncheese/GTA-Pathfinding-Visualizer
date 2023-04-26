@@ -37,7 +37,8 @@ function getClosestNodeToPoint(x: number, y: number, nodes: MapNode[]) {
 
   //loop through all nodes and store closeish ones
   for (let i = 0; i < nodes.length; i++) {
-    if (x + y - (nodes[i].x + nodes[i].y) < min) {
+    if((Math.abs(x - nodes[i].x) + Math.abs(y - nodes[i].y)) < min){
+    //if (x + y - (nodes[i].x + nodes[i].y) < min) {
       closeNodes.push(nodes[i]);
     }
   }
