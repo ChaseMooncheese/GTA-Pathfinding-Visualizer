@@ -3,6 +3,10 @@ import "../types/PathfindingVisualizerTypes";
 import { LatLng } from "leaflet";
 import { useEffect } from "react";
 
+const visitedNodeColor = "red";
+const shortestPathNodeColor = "yellow";
+const unvisitedNodeColor = "blue";
+
 function getLatLngFromCoords(node: MapNode) {
   const x = node.x;
   const y = node.y;
@@ -12,22 +16,66 @@ function getLatLngFromCoords(node: MapNode) {
 export default function NodeLayer(props: {
   nodes: MapNode[];
   nodesVisitedInOrder: MapNode[];
+  shortestPath: MapNode[];
 }) {
   const visitedNodes = new Set<MapNode>();
+  const shortestPathNodes = new Set<MapNode>();
+
   props.nodesVisitedInOrder.forEach((node, index) => {
     visitedNodes.add(node);
   });
 
+  props.shortestPath.forEach((node, index) => {
+    shortestPathNodes.add(node);
+  });
+
   const visuals = props.nodes.map((node, idx) => {
+    let color = "blue";
+    if (shortestPathNodes.has(node)) {
+      color = "yellow";
+    } else if (visitedNodes.has(node)) {
+      color = "red";
+    }
+
     return (
       <Circle
         key={idx}
         center={getLatLngFromCoords(node)}
         radius={3}
-        color={visitedNodes.has(node) ? "red" : "blue"}
+        color={color}
         weight={1}
       />
     );
   });
-  return <LayerGroup>{visuals}</LayerGroup>;
+
+  const visitedNodesVisuals = props.nodesVisitedInOrder.map((node, index) => {
+    return (
+      <Circle
+        key={index}
+        center={getLatLngFromCoords(node)}
+        radius={3}
+        color={visitedNodeColor}
+        weight={1}
+      />
+    );
+  });
+
+  const shortestPathVisuals = props.shortestPath.map((node, index) => {
+    return (
+      <Circle
+        key={index}
+        center={getLatLngFromCoords(node)}
+        radius={3}
+        color={shortestPathNodeColor}
+        weight={1}
+      />
+    );
+  });
+
+  return (
+    <LayerGroup>
+      {visitedNodesVisuals}
+      {shortestPathVisuals}
+    </LayerGroup>
+  );
 }

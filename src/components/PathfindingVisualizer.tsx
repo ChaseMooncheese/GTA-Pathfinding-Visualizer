@@ -16,6 +16,7 @@ import NodeData from "../data/nodes.json";
 import { LatLngBounds, CRS, LatLng } from "leaflet";
 import NodeLayer from "./NodeLayer";
 import breadthFirstSearch from "../pathfinding-algorithms/BreadthFirstSearch";
+import Navbar from "./Navbar";
 
 function getLatLngFromCoords(node: MapNode) {
   const x = node.x;
@@ -85,40 +86,35 @@ const bottomLeft: [number, number] = [0, 0];
 const topRight: [number, number] = [12437, 12442];
 const bounds = new LatLngBounds(bottomLeft, topRight);
 
-//Create visual representations of every node
-const markers = nodes.map((node, index) => {
-  return (
-    <Circle
-      key={index}
-      center={getLatLngFromCoords(node)}
-      radius={3}
-      weight={1}
-    />
-  );
-});
-
 export default function PathfindingVisualizer() {
   const result = breadthFirstSearch(nodes[0], nodes[200]);
   const shortestPath = result[0];
   const visitedNodesInOrder = result[1];
 
   return (
-    <MapContainer
-      center={[5000, 5000]}
-      bounds={bounds}
-      zoom={-3}
-      minZoom={-4}
-      crs={CRS.Simple}
-      preferCanvas={true}
-      scrollWheelZoom={true}
-      markerZoomAnimation={false}
-    >
-      <ImageOverlay
-        //url="https://www.bragitoff.com/wp-content/uploads/2015/11/GTAV-HD-MAP-satellite.jpg"
-        url={mapImgURL}
+    <div>
+      <Navbar></Navbar>
+      <MapContainer
+        center={[5000, 5000]}
         bounds={bounds}
-      />
-      <NodeLayer nodes={nodes} nodesVisitedInOrder={visitedNodesInOrder} />
-    </MapContainer>
+        zoom={-2}
+        minZoom={-3}
+        crs={CRS.Simple}
+        preferCanvas={true}
+        scrollWheelZoom={true}
+        markerZoomAnimation={false}
+      >
+        <ImageOverlay
+          //url="https://www.bragitoff.com/wp-content/uploads/2015/11/GTAV-HD-MAP-satellite.jpg"
+          url={mapImgURL}
+          bounds={bounds}
+        />
+        <NodeLayer
+          nodes={nodes}
+          nodesVisitedInOrder={visitedNodesInOrder}
+          shortestPath={shortestPath}
+        />
+      </MapContainer>
+    </div>
   );
 }
