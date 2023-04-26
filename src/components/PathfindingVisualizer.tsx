@@ -85,6 +85,7 @@ edges.forEach((edge) => {
 const bottomLeft: [number, number] = [0, 0];
 const topRight: [number, number] = [12437, 12442];
 const bounds = new LatLngBounds(bottomLeft, topRight);
+const test = [];
 
 export default function PathfindingVisualizer() {
   const result = breadthFirstSearch(nodes[0], nodes[200]);
@@ -117,4 +118,5 @@ export default function PathfindingVisualizer() {
       </MapContainer>
     </div>
   );
+  //adding a comment for brian
 }
