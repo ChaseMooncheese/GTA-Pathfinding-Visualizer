@@ -5,6 +5,7 @@ import { AiFillCaretDown } from "react-icons/ai";
 export default function Navbar(props: {
   currAlgorithmRef: React.MutableRefObject<string>;
   currSpeedRef: React.MutableRefObject<string>;
+  visualizeFunction: Function;
 }) {
   const algorithms = ["Dijkstra's", "Breadth-First Search", "A* Search"];
   const speeds = ["Slow", "Normal", "Fast"];
@@ -36,7 +37,14 @@ export default function Navbar(props: {
       </div>
 
       <div className="nav-col">
-        <button className="visualize-button">Visualize!</button>
+        <button
+          className="visualize-button"
+          onClick={() => {
+            props.visualizeFunction();
+          }}
+        >
+          Visualize!
+        </button>
       </div>
 
       <div className="nav-col">

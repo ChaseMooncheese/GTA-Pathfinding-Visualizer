@@ -92,14 +92,13 @@ const bounds = new LatLngBounds(bottomLeft, topRight);
 export default function PathfindingVisualizer(props: {
   currentAlgorithmRef: React.MutableRefObject<string>;
   currentSpeedRef: React.MutableRefObject<string>;
+  startNodeRef: React.MutableRefObject<MapNode | undefined>;
+  endNodeRef: React.MutableRefObject<MapNode | undefined>;
+  shortestPathNodes: MapNode[];
+  visitedNodes: MapNode[];
 }) {
-  const result = breadthFirstSearch(nodes[0], nodes[200]);
-  //const result = Dijkstra(nodes[0], nodes[200]);
-  //const result = AStarSearch(nodes[0], nodes[200]);
-  const shortestPath = result[0];
-  const visitedNodesInOrder = result[1];
-  console.log(visitedNodesInOrder);
-  console.log(shortestPath);
+  props.startNodeRef.current = nodes[0];
+  props.endNodeRef.current = nodes[200];
 
   return (
     <div>
@@ -120,11 +119,10 @@ export default function PathfindingVisualizer(props: {
         />
         <NodeLayer
           nodes={nodes}
-          nodesVisitedInOrder={visitedNodesInOrder}
-          shortestPath={shortestPath}
+          nodesVisitedInOrder={props.visitedNodes}
+          shortestPath={props.shortestPathNodes}
         />
       </MapContainer>
     </div>
   );
-  //adding a comment for brian
 }
