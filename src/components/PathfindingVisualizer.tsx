@@ -70,6 +70,11 @@ const nodeData: MapData = NodeData; //Reads the json file
 const nodes = nodeData.Nodes; //This creates all the node objects. Each node has an empty "edges" property
 const edges = nodeData.Edges; //Reads in all the edges
 
+//Initialize nodes with empty edges
+nodes.forEach((node) => {
+  node.edges = [];
+});
+
 //Add edges to node objects
 edges.forEach((edge) => {
   const fromNode = nodes[edge.node1];
@@ -83,6 +88,8 @@ edges.forEach((edge) => {
 
   fromNode.edges.push([destinationNode, weight]);
 });
+
+//Initialize nodes to have empty edge arrays
 
 //Create map
 const bottomLeft: [number, number] = [0, 0];

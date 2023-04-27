@@ -9,7 +9,7 @@ export default function AnimatedNode(props: {
   delay: number;
   position: LatLng;
   nodeType: "shortestPath" | "visited";
-  animationPending: boolean;
+  animated: boolean;
 }) {
   const [currentRadius, setCurrentRadius] = useState(3);
   const [isVisible, setIsVisible] = useState(false);

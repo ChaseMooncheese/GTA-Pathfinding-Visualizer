@@ -16,6 +16,7 @@ export default function breadthFirstSearch(startNode: MapNode, endNode: MapNode)
         //Visit node at front of queue
         numIters++;
         const currentNode = q[0];
+        console.log(currentNode);
         q.shift();  //Pops currentNode from queue
         const edges = currentNode.edges;
         if (edges === undefined)
@@ -29,7 +30,6 @@ export default function breadthFirstSearch(startNode: MapNode, endNode: MapNode)
 
             if (!visitedNodes.has(neighbor))
             {
-                console.log("adding to q");
                 q.push(neighbor);
                 visitedNodes.add(neighbor);
                 visitedNodesInOrder.push(neighbor);
@@ -47,7 +47,6 @@ export default function breadthFirstSearch(startNode: MapNode, endNode: MapNode)
     }
 
     //Trace back steps to get nodes visited in order
-    console.log("finished bfs");
     let curr: MapNode = endNode;
     let parent = nodeToParent.get(curr);
 
