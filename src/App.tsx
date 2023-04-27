@@ -29,7 +29,7 @@ function App() {
     } else if (algorithm === "Breadth-First Search") {
       results = breadthFirstSearch(sourceNode, endNode);
     } else if (algorithm === "A* Search") {
-      //results = AStarSearch(sourceNode, endNode);
+      results = AStarSearch(sourceNode, endNode);
     }
 
     setShortestPathNodes(results[0]);
