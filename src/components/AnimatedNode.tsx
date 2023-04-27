@@ -22,8 +22,6 @@ export default function AnimatedNode(props: {
     return () => clearTimeout(timer);
   }, []);
 
-  console.log(isVisible);
-
   return isVisible ? (
     <Circle
       center={props.position}
