@@ -16,7 +16,7 @@ export default function breadthFirstSearch(startNode: MapNode, endNode: MapNode)
         //Visit node at front of queue
         numIters++;
         const currentNode = q[0];
-        console.log(currentNode);
+        //console.log(currentNode);
         q.shift();  //Pops currentNode from queue
         const edges = currentNode.edges;
         if (edges === undefined)
