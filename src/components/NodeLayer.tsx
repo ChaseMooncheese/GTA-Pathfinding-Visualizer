@@ -18,6 +18,7 @@ export default function NodeLayer(props: {
   nodes: MapNode[];
   nodesVisitedInOrder: MapNode[];
   shortestPath: MapNode[];
+  isAnimatedRef: React.MutableRefObject<boolean>;
 }) {
   const visitedNodes = new Set<MapNode>();
   const shortestPathNodes = new Set<MapNode>();
@@ -73,20 +74,22 @@ export default function NodeLayer(props: {
     );
   });
 
-  const testVisuals = props.nodesVisitedInOrder.map((node, index) => {
+  const animatedVisuals = props.nodesVisitedInOrder.map((node, index) => {
     return (
       <AnimatedNode
         key={index}
         delay={index * 1}
         position={getLatLngFromCoords(node)}
         nodeType="visited"
+        visitedNodesForClearOnUpdate={props.nodesVisitedInOrder}
+        isAnimatedRef={props.isAnimatedRef}
       />
     );
   });
 
   return (
     <LayerGroup>
-      {testVisuals}
+      {animatedVisuals}
       {shortestPathVisuals}
     </LayerGroup>
   );

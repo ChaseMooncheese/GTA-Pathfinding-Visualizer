@@ -9,22 +9,24 @@ export default function AnimatedNode(props: {
   delay: number;
   position: LatLng;
   nodeType: "shortestPath" | "visited";
-  animated: boolean;
+  visitedNodesForClearOnUpdate: MapNode[];
+  isAnimatedRef: React.MutableRefObject<boolean>;
 }) {
   const [currentRadius, setCurrentRadius] = useState(3);
   const [isVisible, setIsVisible] = useState(false);
   const color = props.nodeType === "shortestPath" ? "yellow" : "red";
 
-  //if (!props.animated) {
-  //setIsVisible(false);
-  //}
+  if (!props.isAnimatedRef.current && isVisible) {
+    setIsVisible(false);
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      props.isAnimatedRef.current = true;
       setIsVisible(true);
     }, props.delay);
     return () => clearTimeout(timer);
-  }, []);
+  });
 
   return isVisible ? (
     <Circle

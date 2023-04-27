@@ -11,6 +11,8 @@ function App() {
   const currentAlgorithmRef = useRef("Dijkstra's");
   const currentSpeedRef = useRef("Normal");
 
+  const isAnimatedRef = useRef(false);
+
   const startNode = useRef<MapNode>();
   const endNode = useRef<MapNode>();
 
@@ -36,7 +38,11 @@ function App() {
     setVisitedNodes(results[1]);
   };
 
-  const visualizeFunction = async () => {
+  const visualizeFunction = () => {
+    isAnimatedRef.current = false;
+    setShortestPathNodes([]);
+    setVisitedNodes([]);
+
     if (startNode.current !== undefined && endNode.current !== undefined) {
       runAlgorithm(
         startNode.current,
@@ -60,6 +66,7 @@ function App() {
         visitedNodes={visitedNodes}
         startNodeRef={startNode}
         endNodeRef={endNode}
+        isAnimatedRef={isAnimatedRef}
       ></PathfindingVisualizer>
     </>
   );

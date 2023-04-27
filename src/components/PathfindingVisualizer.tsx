@@ -103,6 +103,7 @@ export default function PathfindingVisualizer(props: {
   endNodeRef: React.MutableRefObject<MapNode | undefined>;
   shortestPathNodes: MapNode[];
   visitedNodes: MapNode[];
+  isAnimatedRef: React.MutableRefObject<boolean>;
 }) {
   props.startNodeRef.current = nodes[0];
   props.endNodeRef.current = nodes[200];
@@ -129,6 +130,7 @@ export default function PathfindingVisualizer(props: {
             nodes={nodes}
             nodesVisitedInOrder={props.visitedNodes}
             shortestPath={props.shortestPathNodes}
+            isAnimatedRef={props.isAnimatedRef}
           />
         )}
       </MapContainer>
