@@ -27,7 +27,7 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
     pq.queue(startNode);
     searchChart.set(startNode,{first: startNode, second: 0});
 
-    while(pq.length >= 0){
+    while(pq.length > 0){
         let currNode = pq.dequeue();
         allVisited.push(currNode);
         
@@ -49,6 +49,10 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
         }
 
         visitedNodes.add(currNode);
+
+        if(currNode.edges === undefined){
+            continue;
+        }
 
         for(let i = 0; i < currNode.edges.length; i++){
             //the cost of the current edge is that edges weight + parent nodes weight + the manhattan distance from the edge node to the end
