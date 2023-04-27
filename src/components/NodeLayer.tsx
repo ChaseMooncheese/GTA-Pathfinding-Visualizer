@@ -2,6 +2,7 @@ import { Circle, CircleMarker, LayerGroup } from "react-leaflet";
 import "../types/PathfindingVisualizerTypes";
 import { LatLng } from "leaflet";
 import { useEffect } from "react";
+import AnimatedNode from "./AnimatedNode";
 
 const visitedNodeColor = "red";
 const shortestPathNodeColor = "yellow";
@@ -72,10 +73,16 @@ export default function NodeLayer(props: {
     );
   });
 
-  return (
-    <LayerGroup>
-      {visitedNodesVisuals}
-      {shortestPathVisuals}
-    </LayerGroup>
-  );
+  const testVisuals = props.nodesVisitedInOrder.map((node, index) => {
+    return (
+      <AnimatedNode
+        key={index}
+        delay={index * 1}
+        position={getLatLngFromCoords(node)}
+        nodeType="visited"
+      />
+    );
+  });
+
+  return <LayerGroup>{testVisuals}</LayerGroup>;
 }
