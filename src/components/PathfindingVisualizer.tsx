@@ -117,11 +117,13 @@ export default function PathfindingVisualizer(props: {
           url={mapImgURL}
           bounds={bounds}
         />
-        <NodeLayer
-          nodes={nodes}
-          nodesVisitedInOrder={props.visitedNodes}
-          shortestPath={props.shortestPathNodes}
-        />
+        {true && (
+          <NodeLayer
+            nodes={nodes}
+            nodesVisitedInOrder={props.visitedNodes}
+            shortestPath={props.shortestPathNodes}
+          />
+        )}
       </MapContainer>
     </div>
   );

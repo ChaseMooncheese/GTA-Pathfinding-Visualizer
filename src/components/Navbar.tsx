@@ -39,7 +39,7 @@ export default function Navbar(props: {
       <div className="nav-col">
         <button
           className="visualize-button"
-          onClick={() => {
+          onClick={async () => {
             props.visualizeFunction();
           }}
         >
