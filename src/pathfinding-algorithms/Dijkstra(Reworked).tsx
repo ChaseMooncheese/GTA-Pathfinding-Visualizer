@@ -23,18 +23,22 @@ export default function Dijkstra(source: MapNode, destination: MapNode) {
     let smallestNode = vs[0];
     let smallestNodeIndex = 0;
 
+    vs.forEach((i) => {
+      //finds smallest(lowest weight from source) unprocessed node
+      if (
+        d[nodes.indexOf(smallestNode)] > d[nodes.indexOf(i)] &&
+        !s.includes(i)
+      ) {
+        smallestNode = i;
+        smallestNodeIndex = nodes.indexOf(i);
+      }
+    });
+
     if (smallestNode === destination) {
       endNodeFound = true;
       continue;
     }
 
-    vs.forEach((i) => {
-      //finds smallest(lowest weight from source) unprocessed node
-      if (d[smallestNodeIndex] > d[nodes.indexOf(i)] && !s.includes(i)) {
-        smallestNode = i;
-        smallestNodeIndex = nodes.indexOf(i);
-      }
-    });
     vs.splice(smallestNodeIndex, 1);
     s.push(smallestNode); //removes smalleset node from vs and adds it to s
     if (smallestNode.edges !== undefined) {
