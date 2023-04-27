@@ -84,5 +84,10 @@ export default function NodeLayer(props: {
     );
   });
 
-  return <LayerGroup>{testVisuals}</LayerGroup>;
+  return (
+    <LayerGroup>
+      {testVisuals}
+      {shortestPathVisuals}
+    </LayerGroup>
+  );
 }

@@ -15,6 +15,10 @@ export default function AnimatedNode(props: {
   const [isVisible, setIsVisible] = useState(false);
   const color = props.nodeType === "shortestPath" ? "yellow" : "red";
 
+  //if (!props.animated) {
+  //setIsVisible(false);
+  //}
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
