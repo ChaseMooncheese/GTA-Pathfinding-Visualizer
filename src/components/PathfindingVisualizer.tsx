@@ -84,7 +84,7 @@ edges.forEach((edge) => {
     fromNode.edges = [];
   }
 
-  const weight = 1; //all weights are 1 for now
+  const weight = distance(fromNode.x, fromNode.y, destinationNode.x, destinationNode.y); //weights are no longer 1 now
 
   fromNode.edges.push([destinationNode, weight]);
 });
