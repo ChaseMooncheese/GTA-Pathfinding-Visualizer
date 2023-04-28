@@ -10,7 +10,7 @@ function getLatLngFromCoords(node: MapNode) {
 
 const lineOptions = {
   color: "purple",
-  weight: 20,
+  weight: 10,
 };
 
 export default function ShortestPathLine(props: {
