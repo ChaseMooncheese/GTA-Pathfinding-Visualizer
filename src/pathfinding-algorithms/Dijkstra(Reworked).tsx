@@ -1,80 +1,80 @@
-import "../types/PathfindingVisualizerTypes";
+import PriorityQueue from "js-priority-queue";
 
-export default function Dijkstra(source: MapNode, destination: MapNode) {
-  const s = [source]; //visited nodes
-  const vs: MapNode[] = []; //non visited nodes (non processed nodes)
-  source.edges.forEach((i) => vs.push(i[0])); //adds source's edges to vs to be processed
-  const d: number[] = [0]; //weights from source
-  const p: (-1 | MapNode)[] = [-1]; //parent node
+//value for the chart, holds parent and distance from start
+type pairValue = {
+  first: MapNode;
+  second: number;
+};
 
-  const nodes = [source]; //keeps track of all nodes seen so far
+export default function Dijkstra(startNode: MapNode, endNode: MapNode) {
+  const visitedNodes = new Set<MapNode>(); //set to know what is already checked
+  const allVisited = []; //visited in order array
+  const searchChart = new Map<MapNode, pairValue>(); //unordered map with dijkstras esc chart
+  const shortestPath = Array<MapNode>(); //shortest path to return
+  const pq = new PriorityQueue({
+    //min heap of nodes based on distances
+    comparator: (a: MapNode, b: MapNode) => {
+      const pairA = searchChart.get(a);
+      const pairB = searchChart.get(b);
 
-  for (let i = 0; i < vs.length; i++) {
-    //initializes d, nodes, and p with source edges
-    d.push(source.edges[i][1]);
-    nodes.push(vs[i]);
-    p.push(source);
-  }
+      if (pairA === undefined || pairB === undefined) {
+        return 0;
+      }
+      return pairA.second - pairB.second;
+    },
+  });
 
-  let endNodeFound = false;
+  pq.queue(startNode); //place starting node in the pq
+  searchChart.set(startNode, { first: startNode, second: 0 }); //and in the chart with a weight of 0, its parent doesnt rlly matter
 
-  while (vs.length != 0 && !endNodeFound) {
-    //runs while nodes still need to be processed
-    let smallestNode = vs[0];
-    let smallestNodeIndex = 0;
+  //as long as pq is not empty
+  while (pq.length > 0) {
+    let currNode = pq.dequeue(); //remove from pq and store it in the current node
+    allVisited.push(currNode); //put current node in the set to mark as visited already
 
-    if (smallestNode === destination) {
-      endNodeFound = true;
+    //if endNode is reached and is at the top of the pq
+    if (currNode === endNode) {
+      //backtrack from the end node through all the parents in the chart and add the parents to the path array
+      while (currNode != startNode) {
+        shortestPath.push(currNode);
+        currNode = searchChart.get(currNode).first;
+      }
+      shortestPath.push(currNode);
+      //return the shortest path reversed and every node visited in order
+      return [shortestPath.reverse(), allVisited];
+    }
+
+    //skip if visited
+    if (visitedNodes.has(currNode)) {
+      continue;
+    }
+    //add to visited set
+    visitedNodes.add(currNode);
+
+    //skip if it doesnt have any edges
+    if (currNode.edges === undefined) {
       continue;
     }
 
-    vs.forEach((i) => {
-      //finds smallest(lowest weight from source) unprocessed node
-      if (d[smallestNodeIndex] > d[nodes.indexOf(i)] && !s.includes(i)) {
-        smallestNode = i;
-        smallestNodeIndex = nodes.indexOf(i);
+    //loop through edges
+    for (let i = 0; i < currNode.edges.length; i++) {
+      //the cost of the current edge is that edges weight + parent nodes weight
+      const cost = currNode.edges[i][1] + searchChart.get(currNode).second;
+
+      //if the neighbor is not yet in the chart (hasnt been checked yet) or if the current cost to it is less then the previous cost to it
+      if (
+        !searchChart.has(currNode.edges[i][0]) ||
+        cost < searchChart.get(currNode.edges[i][0]).second
+      ) {
+        //update it with the new cost and parent node and put it in pq
+        searchChart.set(currNode.edges[i][0], {
+          first: currNode,
+          second: cost,
+        });
+        pq.queue(currNode.edges[i][0]);
       }
-    });
-    vs.splice(smallestNodeIndex, 1);
-    s.push(smallestNode); //removes smalleset node from vs and adds it to s
-    if (smallestNode.edges !== undefined) {
-      //prevents errors for nodes with no edges
-      smallestNode.edges.forEach((i) => {
-        //adds new nodes
-        if (!vs.includes(i[0]) && !s.includes(i[0])) {
-          vs.push(i[0]);
-        }
-        if (!nodes.includes(i[0])) {
-          nodes.push(i[0]);
-          d.push(Number.MAX_VALUE);
-        }
-      });
-      smallestNode.edges.forEach((i) => {
-        const index = nodes.indexOf(i[0]);
-        if (d[index] == undefined) {
-          d[index] = d[nodes.indexOf(smallestNode)] + i[1];
-          p[index] = smallestNode;
-        } else if (
-          vs.includes(i[0]) &&
-          d[nodes.indexOf(smallestNode)] + i[1] < d[index]
-        ) {
-          d[index] = d[nodes.indexOf(smallestNode)] + i[1];
-          p[index] = smallestNode;
-        }
-      });
     }
   }
-
-  //path to destination
-  const path: MapNode[] = [destination];
-  const nodesTS: (MapNode | number)[] = nodes;
-  while (path[0] != source) {
-    let pNode = p[nodesTS.indexOf(path[0])];
-    if (pNode === -1) {
-      pNode = source;
-    }
-    path.unshift(pNode);
-  }
-
-  return [path, s];
+  //if end node wasnt reached return the empty shortest path and all nodes visited in order
+  return [shortestPath, allVisited];
 }
