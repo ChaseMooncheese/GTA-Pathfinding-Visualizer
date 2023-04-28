@@ -2,7 +2,7 @@ import { LatLng } from "leaflet";
 import { Marker } from "react-leaflet";
 import { useState, useMemo, useRef, useEffect } from "react";
 
-const initialPosition = new LatLng(5000, 5000);
+const initialPosition = new LatLng(3000, 5000);
 
 export default function EndMarker(props: {
   positionRef: React.MutableRefObject<[number, number] | undefined>;

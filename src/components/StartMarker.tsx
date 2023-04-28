@@ -12,7 +12,7 @@ function getIcon() {
   return icon;
 }
 
-const initialPosition = new LatLng(5000, 3000);
+const initialPosition = new LatLng(2000, 6000);
 
 export default function StartMarker(props: {
   positionRef: React.MutableRefObject<[number, number] | undefined>;
