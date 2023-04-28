@@ -88,12 +88,17 @@ export default function NodeLayer(props: {
     );
   });
 
+  if (animatedVisuals.length === 0) {
+    return <></>;
+  }
+
   return (
     <LayerGroup>
       {animatedVisuals}
       <ShortestPathLine
         nodes={props.shortestPath}
-        delay={500 * animatedVisuals.length}
+        delay={1 * animatedVisuals.length}
+        k={Math.random()}
       />
     </LayerGroup>
   );

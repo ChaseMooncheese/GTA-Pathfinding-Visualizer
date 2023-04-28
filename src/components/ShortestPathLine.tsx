@@ -16,6 +16,7 @@ const lineOptions = {
 export default function ShortestPathLine(props: {
   nodes: MapNode[];
   delay: number;
+  k: number;
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const positions = props.nodes.map((node) => {
@@ -23,14 +24,17 @@ export default function ShortestPathLine(props: {
     return pos;
   });
 
+  console.log(props.delay);
+  console.log(isVisible);
+
   useEffect(() => {
     setIsVisible(false);
-  }, []);
-  console.log(props.delay);
+  }, [props.k]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
+      console.log("setting now");
     }, props.delay);
     return () => clearTimeout(timer);
   });
