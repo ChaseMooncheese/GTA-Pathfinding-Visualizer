@@ -74,7 +74,12 @@ function DropDownButton(props: {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="dropdown-button">
+    <div
+      className="dropdown-button"
+      onBlur={() => {
+        setOpen(false);
+      }}
+    >
       <a
         className="dropdown-button-anchor"
         onClick={() => {
