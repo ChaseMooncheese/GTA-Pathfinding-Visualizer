@@ -82,10 +82,8 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
             //if the neighbor is not yet in the chart (hasnt been checked yet) or if the current cost to it is less then the previous cost to it
             if(!searchChart.has(currNode.edges[i][0]) || cost < searchChart.get(currNode.edges[i][0]).second){
                 //update it with the new cost and parent node and put it in pq
-                searchChart.set(currNode.edges[i][0], {first: currNode, second: totalCostToReachChild});
-                
-                //pq.queue(currNode.edges[i][0]);
-                addToPriorityQueue(currNode.edges[i][0], estimatedCostOfPathThroughNode);
+                searchChart.set(currNode.edges[i][0], {first: currNode, second: cost});
+                pq.queue(currNode.edges[i][0]);
             }
 
         }
