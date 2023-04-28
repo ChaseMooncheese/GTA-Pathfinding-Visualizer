@@ -91,7 +91,6 @@ export default function NodeLayer(props: {
   return (
     <LayerGroup>
       {animatedVisuals}
-      {shortestPathVisuals}
       <ShortestPathLine
         nodes={props.shortestPath}
         delay={500 * animatedVisuals.length}
