@@ -30,6 +30,10 @@ function getLatLngFromCoords(node: MapNode) {
   return new LatLng(y + 4045, x + 5700); //add offsets to make nodes line up with the map
 }
 
+function distance(x1: number, y1: number, x2: number, y2: number) {
+  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+}
+
 //Read data
 // @ts-ignore
 const nodeData: MapData = NodeData; //Reads the json file
@@ -52,7 +56,12 @@ edges.forEach((edge) => {
     fromNode.edges = [];
   }
 
-  const weight = distance(fromNode.x, fromNode.y, destinationNode.x, destinationNode.y); //weights are no longer 1 now
+  const weight = distance(
+    fromNode.x,
+    fromNode.y,
+    destinationNode.x,
+    destinationNode.y
+  ); //weights are no longer 1 now
 
   fromNode.edges.push([destinationNode, weight]);
 });

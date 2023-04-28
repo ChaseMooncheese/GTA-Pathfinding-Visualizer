@@ -3,6 +3,7 @@ import "../types/PathfindingVisualizerTypes";
 import { LatLng } from "leaflet";
 import { useEffect } from "react";
 import AnimatedNode from "./AnimatedNode";
+import ShortestPathLine from "./ShortestPathLine";
 
 const visitedNodeColor = "red";
 const shortestPathNodeColor = "yellow";
@@ -91,6 +92,10 @@ export default function NodeLayer(props: {
     <LayerGroup>
       {animatedVisuals}
       {shortestPathVisuals}
+      <ShortestPathLine
+        nodes={props.shortestPath}
+        delay={1 * animatedVisuals.length}
+      />
     </LayerGroup>
   );
 }
