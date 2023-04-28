@@ -12,7 +12,21 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
     const allVisited = []; //visited in order array
     const searchChart = new Map<MapNode, pairValue>(); //unordered map with dijkstras esc chart
     const shortestPath = Array<MapNode>(); //shortest path to return
+
+    const comp = (a: MapNode, b: MapNode) => {
+        const priorityA = priorities.get(a);
+        const priorityB = priorities.get(b);
+
+        if (priorityA === undefined || priorityB === undefined)
+        {
+            return 0;
+        }
+
+        return priorityA - priorityB;
+    }
+
     const pq = new PriorityQueue({ //min heap of nodes based on distances
+        /*
         comparator: (a: MapNode, b: MapNode) => { 
             const pairA = searchChart.get(a);
             const pairB = searchChart.get(b);
@@ -21,9 +35,10 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
             {
               return 0;
             }
-            //calculate order of priority queue with manhattanDistance
-            return (pairA.second + manhattanDistance(pairA.first, endNode)) - (pairB.second + manhattanDistance(pairB.first, endNode));
+            return pairA.second - pairB.second;
         }
+        */
+       comparator: comp
     });
 
     pq.queue(startNode); //place starting node in the pq
@@ -67,8 +82,10 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
             //if the neighbor is not yet in the chart (hasnt been checked yet) or if the current cost to it is less then the previous cost to it
             if(!searchChart.has(currNode.edges[i][0]) || cost < searchChart.get(currNode.edges[i][0]).second){
                 //update it with the new cost and parent node and put it in pq
-                searchChart.set(currNode.edges[i][0], {first: currNode, second: cost});
-                pq.queue(currNode.edges[i][0]);
+                searchChart.set(currNode.edges[i][0], {first: currNode, second: totalCostToReachChild});
+                
+                //pq.queue(currNode.edges[i][0]);
+                addToPriorityQueue(currNode.edges[i][0], estimatedCostOfPathThroughNode);
             }
 
         }
