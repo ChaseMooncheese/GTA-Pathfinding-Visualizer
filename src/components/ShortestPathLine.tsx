@@ -24,9 +24,6 @@ export default function ShortestPathLine(props: {
     return pos;
   });
 
-  console.log(props.delay);
-  console.log(isVisible);
-
   useEffect(() => {
     setIsVisible(false);
   }, [props.k]);
@@ -34,7 +31,6 @@ export default function ShortestPathLine(props: {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
-      console.log("setting now");
     }, props.delay);
     return () => clearTimeout(timer);
   });
