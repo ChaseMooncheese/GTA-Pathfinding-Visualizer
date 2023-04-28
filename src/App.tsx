@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Dijkstra from "./pathfinding-algorithms/Dijkstra(Reworked)";
 import breadthFirstSearch from "./pathfinding-algorithms/BreadthFirstSearch";
 import AStarSearch from "./pathfinding-algorithms/AStar";
+import { ClosestNodeFinder } from "./ClosestNodeFinder";
 
 function App() {
   const currentAlgorithmRef = useRef("Dijkstra's");
@@ -13,11 +14,12 @@ function App() {
 
   const isAnimatedRef = useRef(false);
 
-  const startNode = useRef<MapNode>();
-  const endNode = useRef<MapNode>();
+  const startPos = useRef<[number, number]>();
+  const endPos = useRef<[number, number]>();
 
   const [shortestPathNodes, setShortestPathNodes] = useState<MapNode[]>([]);
   const [visitedNodes, setVisitedNodes] = useState<MapNode[]>([]);
+  const closestNodeFinder = useRef<ClosestNodeFinder>(null);
 
   const runAlgorithm = async (
     sourceNode: MapNode,
@@ -42,13 +44,32 @@ function App() {
     isAnimatedRef.current = false;
     setShortestPathNodes([]);
     setVisitedNodes([]);
+    const startPosition = startPos.current;
+    const endPosition = endPos.current;
+    console.log(startPosition);
+    console.log(endPosition);
 
-    if (startNode.current !== undefined && endNode.current !== undefined) {
-      runAlgorithm(
-        startNode.current,
-        endNode.current,
-        currentAlgorithmRef.current
-      );
+    if (
+      closestNodeFinder.current === null ||
+      startPosition === undefined ||
+      endPosition === undefined
+    ) {
+      return;
+    }
+
+    const startNode = closestNodeFinder.current.getClosestNode(
+      startPosition[0],
+      startPosition[1]
+    );
+    const endNode = closestNodeFinder.current.getClosestNode(
+      endPosition[0],
+      endPosition[1]
+    );
+    console.log(startNode);
+    console.log(endNode);
+
+    if (startNode != null && endNode !== null) {
+      runAlgorithm(startNode, endNode, currentAlgorithmRef.current);
     }
   };
 
@@ -64,9 +85,10 @@ function App() {
         currentSpeedRef={currentSpeedRef}
         shortestPathNodes={shortestPathNodes}
         visitedNodes={visitedNodes}
-        startNodeRef={startNode}
-        endNodeRef={endNode}
+        startPosRef={startPos}
+        endPosRef={endPos}
         isAnimatedRef={isAnimatedRef}
+        getClosestNodeHandlerRef={closestNodeFinder}
       ></PathfindingVisualizer>
     </>
   );
