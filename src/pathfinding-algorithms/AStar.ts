@@ -21,7 +21,7 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
             {
               return 0;
             }
-            return pairA.second - pairB.second;
+            return (pairA.second + manhattanDistance(pairA.first, endNode)) - (pairB.second + manhattanDistance(pairB.first, endNode));
         }
     });
 
@@ -61,7 +61,7 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
         //loop through edges
         for(let i = 0; i < currNode.edges.length; i++){
             //the cost of the current edge is that edges weight + parent nodes weight + the manhattan distance from the edge node to the end
-            const cost = currNode.edges[i][1] + searchChart.get(currNode).second + manhattanDistance(currNode.edges[i][0], endNode);
+            const cost = currNode.edges[i][1] + searchChart.get(currNode).second;
 
             //if the neighbor is not yet in the chart (hasnt been checked yet) or if the current cost to it is less then the previous cost to it
             if(!searchChart.has(currNode.edges[i][0]) || cost < searchChart.get(currNode.edges[i][0]).second){
