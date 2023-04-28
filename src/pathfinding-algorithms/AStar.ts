@@ -14,32 +14,19 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
     const priorities = new Map<MapNode, number>();
     const shortestPath = Array<MapNode>(); //shortest path to return
 
-    const comp = (a: MapNode, b: MapNode) => {
-        const priorityA = priorities.get(a);
-        const priorityB = priorities.get(b);
-
-        if (priorityA === undefined || priorityB === undefined)
-        {
-            return 0;
-        }
-
-        return priorityA - priorityB;
-    }
-
     const pq = new PriorityQueue({ //min heap of nodes based on distances
-        /*
-        comparator: (a: MapNode, b: MapNode) => { 
-            const pairA = searchChart.get(a);
-            const pairB = searchChart.get(b);
-            
-            if (pairA === undefined || pairB === undefined)
+        comparator: (a: MapNode, b: MapNode) => {
+            const priorityA = priorities.get(a);
+            const priorityB = priorities.get(b);
+    
+            if (priorityA === undefined || priorityB === undefined)
             {
-              return 0;
+                return 0;
             }
-            return pairA.second - pairB.second;
+    
+            return priorityA - priorityB;
         }
-        */
-       comparator: comp
+    
     });
 
     const addToPriorityQueue = (node: MapNode, priority: number)=>{
