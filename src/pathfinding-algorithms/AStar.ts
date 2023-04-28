@@ -12,21 +12,7 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
     const allVisited = []; //visited in order array
     const searchChart = new Map<MapNode, pairValue>(); //unordered map with dijkstras esc chart
     const shortestPath = Array<MapNode>(); //shortest path to return
-
-    const comp = (a: MapNode, b: MapNode) => {
-        const priorityA = priorities.get(a);
-        const priorityB = priorities.get(b);
-
-        if (priorityA === undefined || priorityB === undefined)
-        {
-            return 0;
-        }
-
-        return priorityA - priorityB;
-    }
-
     const pq = new PriorityQueue({ //min heap of nodes based on distances
-        /*
         comparator: (a: MapNode, b: MapNode) => { 
             const pairA = searchChart.get(a);
             const pairB = searchChart.get(b);
@@ -37,8 +23,6 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
             }
             return pairA.second - pairB.second;
         }
-        */
-       comparator: comp
     });
 
     pq.queue(startNode); //place starting node in the pq
@@ -76,8 +60,8 @@ export default function AStarSearch(startNode: MapNode, endNode: MapNode){
 
         //loop through edges
         for(let i = 0; i < currNode.edges.length; i++){
-            //the cost of the current edge is that edges weight + parent nodes weight
-            const cost = currNode.edges[i][1] + searchChart.get(currNode).second;
+            //the cost of the current edge is that edges weight + parent nodes weight + the manhattan distance from the edge node to the end
+            const cost = currNode.edges[i][1] + searchChart.get(currNode).second + manhattanDistance(currNode.edges[i][0], endNode);
 
             //if the neighbor is not yet in the chart (hasnt been checked yet) or if the current cost to it is less then the previous cost to it
             if(!searchChart.has(currNode.edges[i][0]) || cost < searchChart.get(currNode.edges[i][0]).second){
