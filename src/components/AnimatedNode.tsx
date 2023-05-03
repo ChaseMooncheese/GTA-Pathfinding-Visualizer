@@ -1,6 +1,6 @@
 import { LatLng } from "leaflet";
 import { useEffect, useState } from "react";
-import { Circle } from "react-leaflet";
+import { Circle, Popup } from "react-leaflet";
 
 const radius = 3;
 const weight = 1;
@@ -34,7 +34,7 @@ export default function AnimatedNode(props: {
       radius={currentRadius}
       color={color}
       weight={1}
-    />
+    ></Circle>
   ) : (
     <></>
   );

@@ -46,8 +46,6 @@ function App() {
     setVisitedNodes([]);
     const startPosition = startPos.current;
     const endPosition = endPos.current;
-    console.log(startPosition);
-    console.log(endPosition);
 
     if (
       closestNodeFinder.current === null ||
@@ -65,8 +63,6 @@ function App() {
       endPosition[0],
       endPosition[1]
     );
-    console.log(startNode);
-    console.log(endNode);
 
     if (startNode != null && endNode !== null) {
       runAlgorithm(startNode, endNode, currentAlgorithmRef.current);

@@ -1,4 +1,4 @@
-import { Circle, CircleMarker, LayerGroup } from "react-leaflet";
+import { Circle, CircleMarker, LayerGroup, Marker, Popup } from "react-leaflet";
 import "../types/PathfindingVisualizerTypes";
 import { LatLng } from "leaflet";
 import { useEffect } from "react";
@@ -47,31 +47,7 @@ export default function NodeLayer(props: {
         radius={3}
         color={color}
         weight={1}
-      />
-    );
-  });
-
-  const visitedNodesVisuals = props.nodesVisitedInOrder.map((node, index) => {
-    return (
-      <Circle
-        key={index}
-        center={getLatLngFromCoords(node)}
-        radius={3}
-        color={visitedNodeColor}
-        weight={1}
-      />
-    );
-  });
-
-  const shortestPathVisuals = props.shortestPath.map((node, index) => {
-    return (
-      <Circle
-        key={index}
-        center={getLatLngFromCoords(node)}
-        radius={3}
-        color={shortestPathNodeColor}
-        weight={1}
-      />
+      ></Circle>
     );
   });
 
