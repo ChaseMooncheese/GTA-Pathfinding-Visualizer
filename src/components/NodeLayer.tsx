@@ -26,6 +26,7 @@ export default function NodeLayer(props: {
 
   props.nodesVisitedInOrder.forEach((node, index) => {
     visitedNodes.add(node);
+    console.log(props.nodes.indexOf(node));
   });
 
   props.shortestPath.forEach((node, index) => {
