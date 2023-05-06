@@ -26,32 +26,32 @@ export default function NodeLayer(props: {
 
   props.nodesVisitedInOrder.forEach((node, index) => {
     visitedNodes.add(node);
-    console.log(props.nodes.indexOf(node));
   });
 
   props.shortestPath.forEach((node, index) => {
     shortestPathNodes.add(node);
   });
 
-  const visuals = props.nodes.map((node, idx) => {
-    let color = "blue";
-    if (shortestPathNodes.has(node)) {
-      color = "yellow";
-    } else if (visitedNodes.has(node)) {
-      color = "red";
-    }
+  // const visuals = props.nodes.map((node, idx) => {
+  //   let color = "blue";
+  //   if (shortestPathNodes.has(node)) {
+  //     color = "yellow";
+  //   } else if (visitedNodes.has(node)) {
+  //     color = "red";
+  //   }
 
-    return (
-      <Circle
-        key={idx}
-        center={getLatLngFromCoords(node)}
-        radius={3}
-        color={color}
-        weight={1}
-      ></Circle>
-    );
-  });
-
+  //   return (
+  //     <Circle
+  //       key={idx}
+  //       center={getLatLngFromCoords(node)}
+  //       radius={3}
+  //       color={color}
+  //       weight={1}
+  //     ></Circle>
+  //   );
+  // });
+  console.log("done with visuals");
+  console.log("starting animated visuals")
   const animatedVisuals = props.nodesVisitedInOrder.map((node, index) => {
     return (
       <AnimatedNode
@@ -64,19 +64,19 @@ export default function NodeLayer(props: {
       />
     );
   });
-
   if (animatedVisuals.length === 0) {
     return <></>;
   }
 
+  
   return (
     <LayerGroup>
       {animatedVisuals}
       <ShortestPathLine
         nodes={props.shortestPath}
         delay={1 * animatedVisuals.length}
-        k={Math.random()}
       />
     </LayerGroup>
+    
   );
 }

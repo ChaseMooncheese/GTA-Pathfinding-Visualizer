@@ -7,6 +7,7 @@ type pairValue = {
 };
 
 export default function Dijkstra(startNode: MapNode, endNode: MapNode) {
+  const start = performance.now();
   const visitedNodes = new Set<MapNode>(); //set to know what is already checked
   const allVisited = []; //visited in order array
   const searchChart = new Map<MapNode, pairValue>(); //unordered map with dijkstras esc chart
@@ -41,6 +42,7 @@ export default function Dijkstra(startNode: MapNode, endNode: MapNode) {
       }
       shortestPath.push(currNode);
       //return the shortest path reversed and every node visited in order
+      console.log("time taken: " + (performance.now() - start));
       return [shortestPath.reverse(), allVisited];
     }
 

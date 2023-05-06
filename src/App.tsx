@@ -1,4 +1,3 @@
-import { Popup, Marker, MapContainer, TileLayer, useMap } from "react-leaflet";
 import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import PathfindingVisualizer from "./components/PathfindingVisualizer";
