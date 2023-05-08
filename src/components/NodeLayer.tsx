@@ -1,7 +1,7 @@
-import { Circle, CircleMarker, LayerGroup, Marker, Popup } from "react-leaflet";
+import { Circle, CircleMarker, LayerGroup, Marker, Popup, useMapEvents } from "react-leaflet";
 import "../types/PathfindingVisualizerTypes";
 import { LatLng } from "leaflet";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AnimatedNode from "./AnimatedNode";
 import ShortestPathLine from "./ShortestPathLine";
 
@@ -13,6 +13,23 @@ function getLatLngFromCoords(node: MapNode) {
   const x = node.x;
   const y = node.y;
   return new LatLng(y + 4045, x + 5700); //add offsets to make nodes line up with the map
+}
+
+function AnimatedLayer(props: {nodes: any}){
+  const [zoomLevel, setZoomLevel] = useState(-2); // initial zoom level
+  
+  const mapEvents = useMapEvents({
+      zoomend: () => {
+          setZoomLevel(mapEvents.getZoom());
+      },
+  });
+
+  if (zoomLevel > 1)
+  {
+    return <>{props.nodes}</>;
+  }
+  return <></>
+
 }
 
 export default function NodeLayer(props: {
@@ -50,8 +67,6 @@ export default function NodeLayer(props: {
   //     ></Circle>
   //   );
   // });
-  console.log("done with visuals");
-  console.log("starting animated visuals")
   const animatedVisuals = props.nodesVisitedInOrder.map((node, index) => {
     return (
       <AnimatedNode
@@ -72,6 +87,7 @@ export default function NodeLayer(props: {
   return (
     <LayerGroup>
       {animatedVisuals}
+      {/* <AnimatedLayer nodes={animatedVisuals}></AnimatedLayer> */}
       <ShortestPathLine
         nodes={props.shortestPath}
         delay={1 * animatedVisuals.length}
