@@ -1,4 +1,4 @@
-import { Circle, CircleMarker, LayerGroup, Marker, Popup, useMapEvents } from "react-leaflet";
+import { LayerGroup, useMapEvents } from "react-leaflet";
 import "../types/PathfindingVisualizerTypes";
 import { LatLng } from "leaflet";
 import { useEffect, useState } from "react";
