@@ -1,6 +1,6 @@
 import { LatLng } from "leaflet";
 import { useEffect, useState } from "react";
-import { Circle, Popup } from "react-leaflet";
+import { Circle, } from "react-leaflet";
 
 const radius = 3;
 const weight = 1;
